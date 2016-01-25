@@ -1,6 +1,6 @@
 # OneSignal
 
-**TODO: Add description**
+Elixir wrapper of [OneSignal](https://onesignal.com)
 
 ## Installation
 
@@ -8,13 +8,24 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
   1. Add one_signal to your list of dependencies in `mix.exs`:
 
-        def deps do
-          [{:one_signal, "~> 0.0.1"}]
-        end
+```elixir
+  def deps do
+    [{:one_signal, "~> 0.0.1"}]
+  end
+```
 
   2. Ensure one_signal is started before your application:
 
-        def application do
-          [applications: [:one_signal]]
-        end
+```elixir
+  def application do
+    [applications: [:one_signal]]
+  end
+```
 
+  3. Puts config your `config.exs`
+
+```elixir
+config :one_signal, OneSignal,
+  api_key: "your api key",
+  app_id: "your app id",
+```
