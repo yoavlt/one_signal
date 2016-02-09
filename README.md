@@ -10,7 +10,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ```elixir
   def deps do
-    [{:one_signal, "~> 0.0.1"}]
+    [{:one_signal, "~> 0.0.2"}]
   end
 ```
 
