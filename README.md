@@ -34,6 +34,7 @@ config :one_signal, OneSignal,
 ## Usage: Composable Way!!!
 
 ```elixir
+  import OneSignal.Param
   OneSignal.new
   |> put_heading("Welcome!")
   |> put_message(:en, "Hello")
