@@ -21,6 +21,15 @@ defmodule OneSignal.Notification do
     end
   end
 
+  def send(body) do
+    case OneSignal.API.post(post_notification_url, body) do
+      {:ok, response} ->
+        response = Enum.map(response, &to_key_atom/1)
+        struct(__MODULE__, response)
+      err -> err
+    end
+  end
+
   def to_key_atom({k, v}) do
     {String.to_atom(k), v}
   end

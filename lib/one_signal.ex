@@ -17,6 +17,10 @@ defmodule OneSignal do
 
   def endpoint, do: "https://onesignal.com/api/v1"
 
+  def new do
+    %OneSignal.Param{}
+  end
+
   def auth_header do
     %{"Authorization" => "Basic " <> fetch_api_key,
       "Content-type" => "application/json"}
