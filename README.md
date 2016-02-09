@@ -29,3 +29,16 @@ config :one_signal, OneSignal,
   api_key: "your api key",
   app_id: "your app id",
 ```
+
+
+## Usage: Composable Way!!!
+
+```elixir
+  OneSignal.new
+  |> put_heading("Welcome!")
+  |> put_message(:en, "Hello")
+  |> put_message(:ja, "はろー")
+  |> put_segment("Free Players")
+  |> put_segment("New Players")
+  |> push
+```
