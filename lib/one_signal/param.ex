@@ -142,4 +142,20 @@ defmodule OneSignal.Param do
     Enum.reduce(segs, param, fn next, acc -> exclude_segment(acc, next) end)
   end
 
+  @doc """
+  Put player id
+  """
+  def put_player_id(%Param{player_ids: nil} = param, player_id) do
+    %{param | player_ids: [player_id]}
+  end
+  def put_player_id(%Param{player_ids: ids} = param, player_id) do
+    %{param | player_ids: [player_id|ids]}
+  end
+
+  def put_player_ids(%Param{} = param, player_ids) when is_list(player_ids) do
+    Enum.reduce(player_ids, param, fn next, acc ->
+      put_player_id(acc, next)
+    end)
+  end
+
 end

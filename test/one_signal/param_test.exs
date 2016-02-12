@@ -74,7 +74,6 @@ defmodule OneSignal.ParamTest do
             |> exclude_segment("Free Players")
             |> exclude_segment("New Players")
             |> build
-    IO.inspect param
 
     assert param["contents"]
     assert param["app_id"]
@@ -91,6 +90,11 @@ defmodule OneSignal.ParamTest do
               |> put_segment("New Players")
               |> push
     assert %OneSignal.Notification{} = pushed
+  end
+
+  test "put player id" do
+    param = put_player_id(OneSignal.new, "aiueo")
+    refute Enum.empty?(param.player_ids)
   end
 
 end
