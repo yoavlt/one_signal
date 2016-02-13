@@ -41,5 +41,5 @@ config :one_signal, OneSignal,
   |> put_message(:ja, "はろー")
   |> put_segment("Free Players")
   |> put_segment("New Players")
-  |> push
+  |> notify
 ```
