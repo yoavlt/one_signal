@@ -18,7 +18,7 @@ defmodule OneSignal.Param do
   @doc """
   Send push notification from parameters
   """
-  def push(%Param{} = param) do
+  def notify(%Param{} = param) do
     param
     |> build
     |> OneSignal.Notification.send

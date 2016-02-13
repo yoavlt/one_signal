@@ -82,14 +82,14 @@ defmodule OneSignal.ParamTest do
   end
 
   test "push notification" do
-    pushed = OneSignal.new
+    notified = OneSignal.new
               |> put_heading("Welcome!")
               |> put_message(:en, "Hello")
               |> put_message(:ja, "はろー")
               |> put_segment("Free Players")
               |> put_segment("New Players")
-              |> push
-    assert %OneSignal.Notification{} = pushed
+              |> notify
+    assert %OneSignal.Notification{} = notified
   end
 
   test "put player id" do
