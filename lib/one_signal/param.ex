@@ -1,7 +1,7 @@
 defmodule OneSignal.Param do
   alias OneSignal.Param
 
-  defstruct messages: %{}, headings: nil, platforms: nil, included_segments: nil, excluded_segments: nil, include_player_ids: nil, exclude_player_ids: nil, tags: nil, ios_params: nil, android_params: nil, adm_params: nil, wp_params: nil, chrome_params: nil, firefox_params: nil, send_after: nil
+  defstruct messages: %{}, headings: nil, platforms: nil, included_segments: nil, excluded_segments: nil, include_player_ids: nil, exclude_player_ids: nil, tags: nil, data: nil, ios_params: nil, android_params: nil, adm_params: nil, wp_params: nil, chrome_params: nil, firefox_params: nil, send_after: nil
 
   defp to_string_key({k, v}) do
     {to_string(k), v}
@@ -174,5 +174,15 @@ defmodule OneSignal.Param do
     end)
   end
 
+  @doc """
+  Put data
+  """
+  def put_data(%Param{data: nil} = param, key, value) do
+    %{param | data: %{key => value}}
+  end
+
+  def put_data(%Param{data: data} = param, key, value) do
+    %{param | data: Map.put(data, key, value)}
+  end
 
 end

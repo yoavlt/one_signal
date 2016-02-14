@@ -102,4 +102,12 @@ defmodule OneSignal.ParamTest do
     refute Enum.empty?(param.exclude_player_ids)
   end
 
+  test "put data" do
+    world = OneSignal.new
+            |> put_data("Hello", "World!")
+            |> build
+            |> get_in(["data", "Hello"])
+    assert world == "World!"
+  end
+
 end
