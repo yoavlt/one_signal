@@ -10,7 +10,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ```elixir
   def deps do
-    [{:one_signal, "~> 0.0.4"}]
+    [{:one_signal, "~> 0.0.5"}]
   end
 ```
 
@@ -31,7 +31,7 @@ config :one_signal, OneSignal,
 ```
 
 
-## Usage: Composable Way!!!
+## Composable design, Data structure oriented
 
 ```elixir
   import OneSignal.Param
