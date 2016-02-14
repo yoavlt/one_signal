@@ -1,7 +1,7 @@
 defmodule OneSignal.Param do
   alias OneSignal.Param
 
-  defstruct messages: %{}, headings: nil, platforms: nil, included_segments: nil, excluded_segments: nil, player_ids: nil, tags: nil, ios_params: nil, android_params: nil, adm_params: nil, wp_params: nil, chrome_params: nil, firefox_params: nil, send_after: nil
+  defstruct messages: %{}, headings: nil, platforms: nil, included_segments: nil, excluded_segments: nil, include_player_ids: nil, exclude_player_ids: nil, tags: nil, ios_params: nil, android_params: nil, adm_params: nil, wp_params: nil, chrome_params: nil, firefox_params: nil, send_after: nil
 
   defp to_string_key({k, v}) do
     {to_string(k), v}
@@ -145,11 +145,11 @@ defmodule OneSignal.Param do
   @doc """
   Put player id
   """
-  def put_player_id(%Param{player_ids: nil} = param, player_id) do
-    %{param | player_ids: [player_id]}
+  def put_player_id(%Param{include_player_ids: nil} = param, player_id) do
+    %{param | include_player_ids: [player_id]}
   end
-  def put_player_id(%Param{player_ids: ids} = param, player_id) do
-    %{param | player_ids: [player_id|ids]}
+  def put_player_id(%Param{include_player_ids: ids} = param, player_id) do
+    %{param | include_player_ids: [player_id|ids]}
   end
 
   def put_player_ids(%Param{} = param, player_ids) when is_list(player_ids) do
@@ -157,5 +157,22 @@ defmodule OneSignal.Param do
       put_player_id(acc, next)
     end)
   end
+
+  @doc """
+  Exclude player id
+  """
+  def exclude_player_id(%Param{exclude_player_ids: nil} = param, player_id) do
+    %{param | exclude_player_ids: [player_id]}
+  end
+  def exclude_player_id(%Param{exclude_player_ids: ids} = param, player_id) do
+    %{param | exclude_player_ids: [player_id|ids]}
+  end
+
+  def exclude_player_ids(%Param{} = param, player_ids) when is_list(player_ids) do
+    Enum.reduce(player_ids, param, fn next, acc ->
+      exclude_player_id(acc, next)
+    end)
+  end
+
 
 end

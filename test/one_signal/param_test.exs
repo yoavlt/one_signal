@@ -94,7 +94,12 @@ defmodule OneSignal.ParamTest do
 
   test "put player id" do
     param = put_player_id(OneSignal.new, "aiueo")
-    refute Enum.empty?(param.player_ids)
+    refute Enum.empty?(param.include_player_ids)
+  end
+
+  test "exclude player id" do
+    param = exclude_player_id(OneSignal.new, "aiueo")
+    refute Enum.empty?(param.exclude_player_ids)
   end
 
 end
