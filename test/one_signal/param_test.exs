@@ -110,4 +110,9 @@ defmodule OneSignal.ParamTest do
     assert world == "World!"
   end
 
+  test "put filter" do
+    param = put_filter(OneSignal.new, %{field: "tag", key: "user", relation: "=", value: "12"})
+    refute Enum.empty?(param.filters)
+  end
+
 end
