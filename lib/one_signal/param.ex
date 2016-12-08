@@ -191,8 +191,8 @@ defmodule OneSignal.Param do
   def put_filter(%Param{filters: nil} = param, filter) do
     %{param | filters: [filter]}
   end
-  def put_filter(%Param{filters: ids} = param, filter) do
-    %{param | filters: [filter|ids]}
+  def put_filter(%Param{filters: filters} = param, filter) do
+    %{param | filters: [filter|filters]}
   end
 
   def put_filters(%Param{} = param, filters) when is_list(filters) do
