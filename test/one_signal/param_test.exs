@@ -71,6 +71,7 @@ defmodule OneSignal.ParamTest do
             |> put_heading("Welcome!")
             |> put_message(:en, "Hello")
             |> put_message(:ja, "はろー")
+            |> put_filter(%{key: "userId", value: "123"})
             |> exclude_segment("Free Players")
             |> exclude_segment("New Players")
             |> build

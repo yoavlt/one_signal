@@ -31,7 +31,7 @@ defmodule OneSignal.Param do
     required = %{
       "app_id"   => OneSignal.fetch_app_id,
       "contents" => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{}),
-      "filters" => Enum.map(param.filters, &to_string_key/1)
+      "filters" => param.filters
     }
 
     reject_params = [:messages, :filters, :platforms, :ios_params,
@@ -104,9 +104,6 @@ defmodule OneSignal.Param do
         |> put_message("Hello")
         |> put_filter("{userId: asdf}")
   """
-  def put_filter(%Param{filters: nil} = param, filter) do
-    %{param | filters: [filter]}
-  end
   def put_filter(%Param{filters: filters} = param, filter) do
     %{param | filters: [filters|filter]}
   end
