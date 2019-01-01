@@ -97,6 +97,20 @@ defmodule OneSignal.Param do
   end
 
   @doc """
+  Put specific tag
+
+  iex> OneSignal.new
+        |> put_message("Hello")
+        |> put_tag("{userId: asdf}")
+  """
+  def put_tag(%Param{tags: nil} = param, tag) do
+    %{param | tags: [tag]}
+  end
+  def put_tag(%Param{tags: tags} = param, tag) do
+    %{param | tags: [tags|tag]}
+  end
+
+  @doc """
   Put segments
   """
   def put_segments(%Param{} = param, segs) do
