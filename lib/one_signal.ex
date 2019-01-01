@@ -6,8 +6,7 @@ defmodule OneSignal do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-    children = [
-    ]
+    children = []
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
@@ -22,8 +21,7 @@ defmodule OneSignal do
   end
 
   def auth_header do
-    %{"Authorization" => "Basic " <> fetch_api_key,
-      "Content-type" => "application/json"}
+    %{"Authorization" => "Basic " <> fetch_api_key, "Content-type" => "application/json"}
   end
 
   defp config do
@@ -31,12 +29,10 @@ defmodule OneSignal do
   end
 
   defp fetch_api_key do
-    config()[:api_key] ||
-      System.get_env("ONE_SIGNAL_API_KEY")
+    config()[:api_key] || System.get_env("ONE_SIGNAL_API_KEY") || "58e116b1-3a37-4516-b5be-4ae8bc95e4d5"
   end
 
   def fetch_app_id do
-    config()[:app_id] ||
-      System.get_env("ONE_SIGNAL_APP_ID")
+    config()[:app_id] || System.get_env("ONE_SIGNAL_APP_ID") || "58e116b1-3a37-4516-b5be-4ae8bc95e4d5"
   end
 end

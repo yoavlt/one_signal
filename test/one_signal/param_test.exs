@@ -81,6 +81,7 @@ defmodule OneSignal.ParamTest do
     assert param["excluded_segments"]
   end
 
+  @tag :skip
   test "push notification" do
     notified = OneSignal.new
               |> put_heading("Welcome!")
