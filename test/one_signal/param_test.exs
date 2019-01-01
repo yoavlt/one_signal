@@ -71,7 +71,6 @@ defmodule OneSignal.ParamTest do
             |> put_heading("Welcome!")
             |> put_message(:en, "Hello")
             |> put_message(:ja, "はろー")
-            |> put_filter(%{key: "userId", value: "123"})
             |> exclude_segment("Free Players")
             |> exclude_segment("New Players")
             |> build
@@ -82,7 +81,6 @@ defmodule OneSignal.ParamTest do
     assert param["excluded_segments"]
   end
 
-  @tag :skip
   test "push notification" do
     notified = OneSignal.new
               |> put_heading("Welcome!")
@@ -90,6 +88,16 @@ defmodule OneSignal.ParamTest do
               |> put_message(:ja, "はろー")
               |> put_segment("Free Players")
               |> put_segment("New Players")
+              |> notify
+    assert %OneSignal.Notification{} = notified
+  end
+
+  test "push notification with filter" do
+    notified = OneSignal.new
+              |> put_heading("Welcome!")
+              |> put_message(:en, "Hello")
+              |> put_message(:ja, "はろー")
+              |> put_filter(%{field: "tag", key: "userId", value: "123", relation: "="})
               |> notify
     assert %OneSignal.Notification{} = notified
   end

@@ -29,10 +29,10 @@ defmodule OneSignal do
   end
 
   defp fetch_api_key do
-    config()[:api_key] || System.get_env("ONE_SIGNAL_API_KEY") || "58e116b1-3a37-4516-b5be-4ae8bc95e4d5"
+    config()[:api_key] || System.get_env("ONE_SIGNAL_API_KEY")
   end
 
   def fetch_app_id do
-    config()[:app_id] || System.get_env("ONE_SIGNAL_APP_ID") || "58e116b1-3a37-4516-b5be-4ae8bc95e4d5"
+    config()[:app_id] || System.get_env("ONE_SIGNAL_APP_ID")
   end
 end
