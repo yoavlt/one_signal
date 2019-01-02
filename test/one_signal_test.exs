@@ -3,7 +3,6 @@ defmodule OneSignalTest do
   doctest OneSignal
 
   test "create one signal structure" do
-    assert %OneSignal.Param{} = OneSignal.new
+    assert %OneSignal.Param{} = OneSignal.new()
   end
-
 end

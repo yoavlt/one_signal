@@ -105,7 +105,7 @@ defmodule OneSignal.Param do
         |> put_filter("{userId: asdf}")
   """
   def put_filter(%Param{filters: filters} = param, filter) do
-    %{param | filters: filters ++ [filter]}
+    %{param | filters: [filter | filters]}
   end
 
   @doc """
