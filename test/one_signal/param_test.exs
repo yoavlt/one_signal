@@ -92,6 +92,16 @@ defmodule OneSignal.ParamTest do
     assert %OneSignal.Notification{} = notified
   end
 
+  test "push notification with filter" do
+    notified = OneSignal.new
+              |> put_heading("Welcome!")
+              |> put_message(:en, "Hello")
+              |> put_message(:ja, "はろー")
+              |> put_filter(%{field: "tag", key: "userId", value: "123", relation: "="})
+              |> notify
+    assert %OneSignal.Notification{} = notified
+  end
+
   test "put player id" do
     param = put_player_id(OneSignal.new, "aiueo")
     refute Enum.empty?(param.include_player_ids)

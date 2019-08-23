@@ -1,7 +1,7 @@
 defmodule OneSignal.Param do
   alias OneSignal.Param
 
-  defstruct messages: %{}, headings: nil, platforms: nil, included_segments: nil, excluded_segments: nil, include_player_ids: nil, exclude_player_ids: nil, tags: nil, data: nil, ios_params: nil, android_params: nil, adm_params: nil, wp_params: nil, chrome_params: nil, firefox_params: nil, send_after: nil
+  defstruct messages: %{}, headings: nil, platforms: nil, included_segments: nil, excluded_segments: nil, include_player_ids: nil, exclude_player_ids: nil, filters: [],tags: nil, data: nil, ios_params: nil, android_params: nil, adm_params: nil, wp_params: nil, chrome_params: nil, firefox_params: nil, send_after: nil
 
   defp to_string_key({k, v}) do
     {to_string(k), v}
@@ -30,10 +30,11 @@ defmodule OneSignal.Param do
   def build(%Param{} = param) do
     required = %{
       "app_id"   => OneSignal.fetch_app_id,
-      "contents" => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{})
+      "contents" => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{}),
+      "filters" => param.filters
     }
 
-    reject_params = [:messages, :platforms, :ios_params,
+    reject_params = [:messages, :filters, :platforms, :ios_params,
                      :android_params, :adm_params, :wp_params,
                      :chrome_params, :firefox_params]
     optionals = param
@@ -94,6 +95,17 @@ defmodule OneSignal.Param do
   end
   def put_segment(%Param{included_segments: seg} = param, segment) do
     %{param | included_segments: [segment|seg]}
+  end
+
+  @doc """
+  Put specific filter
+
+  iex> OneSignal.new
+        |> put_message("Hello")
+        |> put_filter("{userId: asdf}")
+  """
+  def put_filter(%Param{filters: filters} = param, filter) do
+    %{param | filters: [filter | filters]}
   end
 
   @doc """
