@@ -1,7 +1,7 @@
 defmodule OneSignal.Notification do
   defstruct id: nil, recipients: 0
 
-  def post_notification_url do
+  def post_notification_url() do
     OneSignal.endpoint <> "/notifications"
   end
 
@@ -12,7 +12,7 @@ defmodule OneSignal.Notification do
   def send(contents, opts) do
     param = %{"contents" => contents, "app_id" => OneSignal.fetch_app_id}
     body = Map.merge(param, opts)
-    url  = post_notification_url
+    url  = post_notification_url()
     case OneSignal.API.post(url, body) do
       {:ok, response} ->
         response = Enum.map(response, &to_key_atom/1)

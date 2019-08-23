@@ -21,7 +21,7 @@ defmodule OneSignal do
   end
 
   def auth_header do
-    %{"Authorization" => "Basic " <> fetch_api_key, "Content-type" => "application/json"}
+    %{"Authorization" => "Basic " <> fetch_api_key(), "Content-type" => "application/json"}
   end
 
   defp config do
