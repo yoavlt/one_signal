@@ -1,7 +1,7 @@
 defmodule OneSignal.Param do
   alias OneSignal.Param
 
-  defstruct messages: %{}, headings: nil, platforms: nil, included_segments: nil, excluded_segments: nil, include_external_user_ids: nil, exclude_external_user_ids: nil, include_player_ids: nil, exclude_player_ids: nil, filters: [],tags: nil, data: nil, ios_params: nil, android_params: nil, adm_params: nil, wp_params: nil, chrome_params: nil, firefox_params: nil, send_after: nil
+  defstruct android_channel_id: nil, messages: %{}, headings: nil, platforms: nil, included_segments: nil, excluded_segments: nil, include_external_user_ids: nil, exclude_external_user_ids: nil, include_player_ids: nil, exclude_player_ids: nil, filters: [],tags: nil, data: nil, ios_params: nil, android_params: nil, adm_params: nil, wp_params: nil, chrome_params: nil, firefox_params: nil, send_after: nil
 
   defp to_string_key({k, v}) do
     {to_string(k), v}
@@ -229,4 +229,10 @@ defmodule OneSignal.Param do
     %{param | data: Map.put(data, key, value)}
   end
 
+  @doc """
+  Set android channel/category for notification
+  """
+  def set_android_channel_id(param, channel_id) do
+    %{param | android_channel_id: channel_id}
+  end
 end
