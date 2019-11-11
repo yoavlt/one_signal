@@ -120,4 +120,11 @@ defmodule OneSignal.ParamTest do
     assert world == "World!"
   end
 
+  test "put url" do
+    url = "https://github.com/yoavlt/one_signal"
+    param = OneSignal.new()
+            |> put_url(url)
+    assert param.url == url
+  end
+
 end
