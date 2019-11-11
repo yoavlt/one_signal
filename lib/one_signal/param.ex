@@ -239,6 +239,7 @@ defmodule OneSignal.Param do
   @doc """
   Set destination URL.
   """
+  def put_url(param, nil), do: param
   def put_url(param, url) do
     %{param | url: url}
   end
