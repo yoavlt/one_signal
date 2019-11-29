@@ -1,4 +1,5 @@
 defmodule OneSignal.API do
+  @json_library OneSignal.json_library()
 
   def get(url, query \\ []) do
     HTTPoison.start
@@ -15,7 +16,7 @@ defmodule OneSignal.API do
   def post(url, body) do
     HTTPoison.start
 
-    req_body = Poison.encode!(body)
+    req_body = @json_library.encode!(body)
 
     HTTPoison.post!(url, req_body, OneSignal.auth_header)
     |> handle_response
@@ -28,11 +29,11 @@ defmodule OneSignal.API do
   end
 
   defp handle_response(%HTTPoison.Response{body: body, status_code: code}) when code in 200..299 do
-    {:ok, Poison.decode!(body)}
+    {:ok, @json_library.decode!(body)}
   end
 
   defp handle_response(%HTTPoison.Response{body: body, status_code: _}) do
-    {:error, Poison.decode!(body)}
+    {:error, @json_library.decode!(body)}
   end
 
 end

@@ -25,7 +25,7 @@ defmodule OneSignal do
   end
 
   defp config do
-    Application.get_env(:one_signal, OneSignal)
+    Application.get_env(:one_signal, OneSignal, %{})
   end
 
   defp fetch_api_key do
@@ -34,5 +34,10 @@ defmodule OneSignal do
 
   def fetch_app_id do
     config()[:app_id] || System.get_env("ONE_SIGNAL_APP_ID")
+  end
+
+  @spec json_library :: any
+  def json_library do
+    Application.get_env(:one_signal, :json_library, Poison)
   end
 end
