@@ -24,6 +24,12 @@ defmodule OneSignal.Param do
     |> OneSignal.Notification.send
   end
 
+  def background_notify(%Param{} = param) do
+    param
+    |> build
+    |> OneSignal.Notification.send_background
+  end
+
   @doc """
   Build notifications parameter of request
   """
