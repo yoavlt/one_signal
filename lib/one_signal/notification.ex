@@ -20,7 +20,6 @@ defmodule OneSignal.Notification do
   end
 
   def send(body) do
-    IO.inspect(body)
     case OneSignal.API.post(post_notification_url(), body) do
       {:ok, response} ->
         response = Enum.map(response, &to_key_atom/1)
@@ -34,7 +33,6 @@ defmodule OneSignal.Notification do
     |> Map.put("content_available", true) #needed to setup backgorund
     |> Map.delete("contents") # need to remove contents for it to work
 
-    IO.inspect(body)
     case OneSignal.API.post(post_notification_url(), body) do
       {:ok, response} ->
         response = Enum.map(response, &to_key_atom/1)
