@@ -22,6 +22,8 @@ defmodule OneSignal.Notification do
   end
 
   def send(body) do
+
+    IO.inspect(body)
     case OneSignal.API.post(post_notification_url, body) do
       {:ok, response} ->
         response = Enum.map(response, &to_key_atom/1)
