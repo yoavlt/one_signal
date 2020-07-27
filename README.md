@@ -43,3 +43,19 @@ config :one_signal, OneSignal,
   |> put_segment("New Players")
   |> notify
 ```
+
+
+#Backgorund notifications
+
+you can also add background notifications. Useful for wen you want to trigger background tasks in your apps that are not currently in the foreground
+
+```elixir
+  import OneSignal.Param
+  OneSignal.new
+  |> put_segment("Free Players")
+  |> put_segment("New Players")
+  |> put_data("payload", %{ hash: "tag"})
+  |> background_notify
+
+
+```
