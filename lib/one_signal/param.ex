@@ -104,9 +104,9 @@ defmodule OneSignal.Param do
         |> put_message("Hello")
         |> put_filter(%{
           field: "tag",
-          key: "key",
+          key: "userId",
           relation: "is",
-          value: "value"
+          value: "asdf"
         })
   """
   def put_filter(%Param{filters: filters} = param, filter) do
