@@ -24,6 +24,12 @@ defmodule OneSignal.Param do
     |> OneSignal.Notification.send
   end
 
+  def background_notify(%Param{} = param) do
+    param
+    |> build
+    |> OneSignal.Notification.send_background
+  end
+
   @doc """
   Build notifications parameter of request
   """
@@ -102,7 +108,12 @@ defmodule OneSignal.Param do
 
   iex> OneSignal.new
         |> put_message("Hello")
-        |> put_filter("{userId: asdf}")
+        |> put_filter(%{
+          field: "tag",
+          key: "userId",
+          relation: "is",
+          value: "asdf"
+        })
   """
   def put_filter(%Param{filters: filters} = param, filter) do
     %{param | filters: [filter | filters]}
