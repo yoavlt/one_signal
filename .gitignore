@@ -6,3 +6,4 @@ erl_crash.dump
 .elixir_ls
 
 dev.secret.exs
+test.secret.exs
