@@ -102,16 +102,14 @@ defmodule OneSignal.ParamTest do
   end
 
   test "push notification" do
-    notified =
-      OneSignal.new()
-      |> put_heading("Welcome!")
-      |> put_message(:en, "Hello")
-      |> put_message(:ja, "はろー")
-      |> put_segment("Free Players")
-      |> put_segment("New Players")
-      |> notify
-
-    assert %OneSignal.Notification{} = notified
+    assert %OneSignal.Notification{} =
+             OneSignal.new()
+             |> put_heading("Welcome!")
+             |> put_message(:en, "Hello")
+             |> put_message(:ja, "はろー")
+             |> put_segment("Free Players")
+             |> put_segment("New Players")
+             |> notify
   end
 
   test "push notification with filter" do

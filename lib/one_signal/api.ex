@@ -17,7 +17,7 @@ defmodule OneSignal.API do
       response |> handle_response()
     else
       {:error, error} -> {:error, error}
-      _ -> {:error, {:unknown, "An unknown error has occured"}}
+      error -> {:error, {:unknown, "An unknown error has occured", error}}
     end
   end
 
@@ -31,12 +31,12 @@ defmodule OneSignal.API do
   end
 
   defp get_request(url, type) do
-    with get_notification = Utils.config()[:get_notification],
+    with get_notification <- Utils.config()[:get_notification],
          {:ok, response} <- get_notification.(url, OneSignal.auth_header(type)) do
       {:ok, response}
     else
       {:error, error} -> {:error, error}
-      _ -> {:error, {:unknown, "An unknown error has occured"}}
+      error -> {:error, {:unknown, "An unknown error has occured", error}}
     end
   end
 
@@ -56,8 +56,8 @@ defmodule OneSignal.API do
       {:error, error} ->
         {:error, error}
 
-      _ ->
-        {:error, {:unknown, "An unknown error has occured"}}
+      error ->
+        {:error, {:unknown, "An unknown error has occured", error}}
     end
   end
 
@@ -73,15 +73,15 @@ defmodule OneSignal.API do
   defp post_request(url, body, type) do
     with body <- Map.put(body, :app_id, OneSignal.fetch_app_id(type)),
          {:ok, req_body} <- Poison.encode(body),
-         post_notification = Utils.config()[:post_notification],
+         post_notification <- Utils.config()[:post_notification],
          {:ok, response} <- post_notification.(url, req_body, OneSignal.auth_header(type)) do
       {:ok, response}
     else
       {:error, error} ->
         {:error, error}
 
-      _ ->
-        {:error, {:unknown, "An unknown error has occured"}}
+      error ->
+        {:error, {:unknown, "An unknown error has occured", error}}
     end
   end
 
@@ -99,7 +99,7 @@ defmodule OneSignal.API do
       response |> handle_response()
     else
       {:error, error} -> {:error, error}
-      _ -> {:error, {:unknown, "An unknown error has occured"}}
+      error -> {:error, {:unknown, "An unknown error has occured", error}}
     end
   end
 
@@ -113,12 +113,12 @@ defmodule OneSignal.API do
   end
 
   defp delete_request(url, type) do
-    with delete_notification = Utils.config()[:delete_notification],
+    with delete_notification <- Utils.config()[:delete_notification],
          {:ok, response} <- delete_notification.(url, OneSignal.auth_header(type)) do
       {:ok, response}
     else
       {:error, error} -> {:error, error}
-      _ -> {:error, {:unknown, "An unknown error has occured"}}
+      error -> {:error, {:unknown, "An unknown error has occured", error}}
     end
   end
 
@@ -129,22 +129,22 @@ defmodule OneSignal.API do
     else
       {:error, :invalid} -> {:error, {:invalid, "Could not parse invalid body"}}
       {:error, error} -> {:error, error}
-      _ -> {:error, {:unknown, "An unknown error has occured"}}
+      error -> {:error, {:unknown, "An unknown error has occured", error}}
     end
   end
 
-  defp handle_response(%Response{body: body, status_code: _}) do
+  defp handle_response(%Response{body: body, status_code: code}) do
     with {:ok, result} <- Poison.decode(body) do
       {:error, {:httpoison, result}}
     else
       {:error, :invalid} -> {:error, {:invalid, "Could not parse invalid body"}}
       {:error, error} -> {:error, error}
-      _ -> {:error, {:unknown, "An unknown error has occured"}}
+      error -> {:error, {:unknown, "An unknown error has occured", error}}
     end
   end
 
-  defp handle_response(_),
-    do: {:error, {:unknown, "An unknown error has occured"}}
+  defp handle_response(error),
+    do: {:error, {:unknown, "An unknown error has occured", error}}
 
   defp include_legacy_notifications() do
     if not is_nil(Utils.config()[:legacy_api_key]) and
