@@ -27,4 +27,15 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+
+config :one_signal, OneSignal,
+  api_key: "your api key",
+  app_id: "your app id",
+  legacy_api_key: "your legacy api key",
+  legacy_app_id: "your legacy app id"
+
+config :one_signal, OneSignal, get_notification: &OneSignal.FakeHTTPoison.get/2
+config :one_signal, OneSignal, post_notification: &OneSignal.FakeHTTPoison.post/3
+config :one_signal, OneSignal, delete_notification: &OneSignal.FakeHTTPoison.delete/2
+
+import_config "#{Mix.env()}.exs"

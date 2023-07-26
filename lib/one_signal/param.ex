@@ -53,7 +53,7 @@ defmodule OneSignal.Param do
   """
   def build(%Param{} = param) do
     required = %{
-      "app_id" => OneSignal.fetch_app_id(),
+      "app_id" => OneSignal.fetch_app_id(:current),
       "contents" => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{}),
       "filters" => param.filters
     }

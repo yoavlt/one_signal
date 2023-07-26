@@ -17,6 +17,10 @@ defmodule OneSignal.Utils do
     url
   end
 
+  def config do
+    Application.get_env(:one_signal, OneSignal)
+  end
+
   defp pair({key, value}) do
     if Enumerable.impl_for(value) do
       pair(to_string(key), [], value)
