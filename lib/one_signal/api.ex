@@ -133,7 +133,7 @@ defmodule OneSignal.API do
     end
   end
 
-  defp handle_response(%Response{body: body, status_code: code}) do
+  defp handle_response(%Response{body: body, status_code: _code}) do
     with {:ok, result} <- Poison.decode(body) do
       {:error, {:httpoison, result}}
     else
