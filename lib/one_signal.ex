@@ -1,5 +1,6 @@
 defmodule OneSignal do
   use Application
+  alias OneSignal.Utils
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -20,19 +21,31 @@ defmodule OneSignal do
     %OneSignal.Param{}
   end
 
-  def auth_header do
-    %{"Authorization" => "Basic " <> fetch_api_key(), "Content-type" => "application/json"}
+  def auth_header(:legacy), do: auth_header(fetch_api_key(:legacy))
+
+  def auth_header(:current), do: auth_header(fetch_api_key(:current))
+
+  def auth_header(nil) do
+    {:error, "Missing API key, please refer to the README on how to configure it."}
   end
 
-  defp config do
-    Application.get_env(:one_signal, OneSignal)
+  def auth_header(api_key) do
+    {:ok, %{"Authorization" => "Basic " <> api_key, "Content-type" => "application/json"}}
   end
 
-  defp fetch_api_key do
-    config()[:api_key] || System.get_env("ONE_SIGNAL_API_KEY")
+  defp fetch_api_key(:legacy) do
+    Utils.config()[:legacy_api_key] || System.get_env("ONE_SIGNAL_LEGACY_API_KEY")
   end
 
-  def fetch_app_id do
-    config()[:app_id] || System.get_env("ONE_SIGNAL_APP_ID")
+  defp fetch_api_key(:current) do
+    Utils.config()[:api_key] || System.get_env("ONE_SIGNAL_API_KEY")
+  end
+
+  def fetch_app_id(:legacy) do
+    Utils.config()[:legacy_app_id] || System.get_env("ONE_SIGNAL_LEGACY_APP_ID")
+  end
+
+  def fetch_app_id(:current) do
+    Utils.config()[:app_id] || System.get_env("ONE_SIGNAL_APP_ID")
   end
 end

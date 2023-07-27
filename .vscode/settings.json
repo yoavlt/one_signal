@@ -1,0 +1,13 @@
+{
+  "[elixir]": {
+    "editor.defaultFormatter": "elixir-lsp.elixir-ls"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "elixir-lsp.elixir-ls",
+  "emmet.includeLanguages": {
+    "html-eex": "html"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
+}
