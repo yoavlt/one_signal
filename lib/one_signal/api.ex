@@ -74,7 +74,8 @@ defmodule OneSignal.API do
     with body <- Map.put(body, :app_id, OneSignal.fetch_app_id(type)),
          {:ok, req_body} <- Poison.encode(body),
          post_notification <- Utils.config()[:post_notification],
-         {:ok, response} <- post_notification.(url, req_body, OneSignal.auth_header(type)) do
+         {:ok, req_header} <- OneSignal.auth_header(type),
+         {:ok, response} <- post_notification.(url, req_body, req_header) do
       {:ok, response}
     else
       {:error, error} ->
