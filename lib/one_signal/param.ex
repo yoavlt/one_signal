@@ -4,6 +4,8 @@ defmodule OneSignal.Param do
   defstruct android_channel_id: nil,
             messages: %{},
             headings: nil,
+            name: nil,
+            include_phone_numbers: [],
             platforms: nil,
             included_segments: nil,
             excluded_segments: nil,
@@ -51,6 +53,17 @@ defmodule OneSignal.Param do
   @doc """
   Build notifications parameter of request
   """
+  def build(%Param{name: _} = param) do
+    required = %{
+      "app_id" => OneSignal.fetch_app_id(:current),
+      "sms_from" => OneSignal.fetch_from_number(),
+      "contents" => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{}),
+      "filters" => param.filters
+    }
+
+    _build(required, param)
+  end
+
   def build(%Param{} = param) do
     required = %{
       "app_id" => OneSignal.fetch_app_id(:current),
@@ -58,6 +71,10 @@ defmodule OneSignal.Param do
       "filters" => param.filters
     }
 
+    _build(required, param)
+  end
+
+  def _build(required, param) do
     reject_params = [
       :messages,
       :filters,
@@ -118,6 +135,24 @@ defmodule OneSignal.Param do
   def put_heading(%Param{headings: headings} = param, language, heading) do
     headings = Map.put(headings, language, heading)
     %{param | headings: headings}
+  end
+
+  @doc """
+  Put notification name.
+
+  An identifier for tracking message within the OneSignal dashboard or export analytics.
+  Not shown to end user.
+
+  iex> OneSignal.new
+        |> put_name("Identifier for SMS Message!")
+        |> put_message("Hello")
+  """
+  def put_name(%Param{name: nil} = param, name) do
+    %{param | name: name}
+  end
+
+  def put_name(%Param{name: _} = param, name) do
+    %{param | name: name}
   end
 
   @doc """
@@ -242,6 +277,23 @@ defmodule OneSignal.Param do
   def put_player_ids(%Param{} = param, player_ids) when is_list(player_ids) do
     Enum.reduce(player_ids, param, fn next, acc ->
       put_player_id(acc, next)
+    end)
+  end
+
+  @doc """
+  Put phone number
+  """
+  def put_phone_number(%Param{include_phone_numbers: nil} = param, phone_number) do
+    %{param | include_phone_numbers: [phone_number]}
+  end
+
+  def put_phone_number(%Param{include_phone_numbers: numbers} = param, phone_number) do
+    %{param | include_phone_numbers: [phone_number | numbers]}
+  end
+
+  def put_phone_numbers(%Param{} = param, phone_numbers) when is_list(phone_numbers) do
+    Enum.reduce(phone_numbers, param, fn next, acc ->
+      put_phone_number(acc, next)
     end)
   end
 

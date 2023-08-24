@@ -48,4 +48,8 @@ defmodule OneSignal do
   def fetch_app_id(:current) do
     Utils.config()[:app_id] || System.get_env("ONE_SIGNAL_APP_ID")
   end
+
+  def fetch_from_number() do
+    Utils.config()[:sms_from_number] || System.get_env("ONE_SIGNAL_SMS_FROM_NUMBER")
+  end
 end

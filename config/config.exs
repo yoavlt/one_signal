@@ -33,6 +33,7 @@ config :one_signal, OneSignal,
   app_id: "your app id",
   legacy_api_key: "your legacy api key",
   legacy_app_id: "your legacy app id",
+  sms_from: "your registered Twilio phone number in E.164 format",
   get_notification: &HTTPoison.get/2,
   post_notification: &HTTPoison.post/3,
   delete_notification: &HTTPoison.delete/2
