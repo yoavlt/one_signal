@@ -60,7 +60,15 @@ defmodule OneSignal.Param do
       :contents => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{}),
     }
 
-    Map.merge(param, required)
+    param
+    |> Map.from_struct()
+    |> Enum.reject(fn {_k, v} ->
+      is_nil(v)
+    end)
+    |> Enum.map(&to_body/1)
+    |> Enum.map(&to_string_key/1)
+    |> Enum.into(%{})
+    |> Map.merge(required)
   end
 
   def build(%Param{} = param) do
@@ -278,18 +286,16 @@ defmodule OneSignal.Param do
   @doc """
   Put phone number
   """
-  def put_phone_number(%Param{include_phone_numbers: nil} = param, phone_number) do
+  def put_phone_numbers(%Param{} = param, phone_numbers) when is_list(phone_numbers) do
+    %{param | include_phone_numbers: phone_numbers}
+  end
+
+  def put_phone_numbers(%Param{include_phone_numbers: nil} = param, phone_number) do
     %{param | include_phone_numbers: [phone_number]}
   end
 
-  def put_phone_number(%Param{include_phone_numbers: numbers} = param, phone_number) do
+  def put_phone_numbers(%Param{include_phone_numbers: numbers} = param, phone_number) do
     %{param | include_phone_numbers: [phone_number | numbers]}
-  end
-
-  def put_phone_numbers(%Param{} = param, phone_numbers) when is_list(phone_numbers) do
-    Enum.reduce(phone_numbers, param, fn next, acc ->
-      put_phone_number(acc, next)
-    end)
   end
 
   @doc """
