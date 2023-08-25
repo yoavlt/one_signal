@@ -55,26 +55,21 @@ defmodule OneSignal.Param do
   """
   def build(%Param{name: _} = param) do
     required = %{
-      "app_id" => OneSignal.fetch_app_id(:current),
-      "sms_from" => OneSignal.fetch_from_number(),
-      "contents" => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{}),
-      "filters" => param.filters
+      :app_id => OneSignal.fetch_app_id(:current),
+      :sms_from => OneSignal.fetch_from_number(),
+      :contents => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{}),
     }
 
-    _build(required, param)
+    Map.merge(param, required)
   end
 
   def build(%Param{} = param) do
     required = %{
-      "app_id" => OneSignal.fetch_app_id(:current),
-      "contents" => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{}),
-      "filters" => param.filters
+      :app_id => OneSignal.fetch_app_id(:current),
+      :contents => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{}),
+      :filters => param.filters
     }
 
-    _build(required, param)
-  end
-
-  def _build(required, param) do
     reject_params = [
       :messages,
       :filters,
