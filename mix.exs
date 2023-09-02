@@ -6,7 +6,7 @@ defmodule OneSignal.Mixfile do
   def project do
     [
       app: :one_signal,
-      version: "0.0.9",
+      version: "1.1.2",
       elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,

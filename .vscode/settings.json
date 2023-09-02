@@ -1,6 +1,6 @@
 {
   "[elixir]": {
-    "editor.defaultFormatter": "elixir-lsp.elixir-ls"
+    "editor.defaultFormatter": "JakeBecker.elixir-ls"
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "elixir-lsp.elixir-ls",
