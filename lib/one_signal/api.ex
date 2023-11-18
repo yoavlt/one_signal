@@ -125,9 +125,9 @@ defmodule OneSignal.API do
 
   defp handle_response(%Response{body: body, status_code: code})
        when code in 200..299 do
-    with {:ok, result} <- Poison.decode(body) do
-      {:ok, result}
-    else
+    case Poison.decode(body) do
+      {:ok, %{"errors" => errors}} -> {:error, errors}
+      {:ok, result} -> {:ok, result}
       {:error, :invalid} -> {:error, {:invalid, "Could not parse invalid body"}}
       {:error, error} -> {:error, error}
       error -> {:error, {:unknown, "An unknown error has occured", error}}
